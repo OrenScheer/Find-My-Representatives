@@ -1,5 +1,6 @@
 package com.example.findmyrepresentatives
 
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -9,9 +10,9 @@ import org.junit.Assert.*
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class ExampleUnitTest {
+class MainActivityTest {
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun postalCode_Correct_ReturnsTrue() {
+        assertThat(Utils.isValidPostalCode("K2P1S3")).isTrue()
     }
 }
