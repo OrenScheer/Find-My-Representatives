@@ -2,4 +2,5 @@
     <string name="app_name">Find My Representatives</string>
     <string name="enter_postal_code">Enter your postal code</string>
     <string name="button_search">Search</string>
+    <string name="postal_code_error"> is not a valid postal code.</string>
 </resources>

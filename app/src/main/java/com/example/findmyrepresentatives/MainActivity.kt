@@ -15,5 +15,16 @@ class MainActivity : AppCompatActivity() {
     fun enterPostalCode(view: View) {
         val searchBox = findViewById<TextView>(R.id.searchBox)
         val postalCode = searchBox.text.toString().trim()
+        if (!Utils.isValidPostalCode(postalCode)) {
+            // Somehow create an error message (view?)
+            val errorMessage = findViewById<TextView>(R.id.errorMessage).apply {
+                text = postalCode + getString(R.string.postal_code_error)
+            }
+            errorMessage.visibility = View.VISIBLE
+        }
+        else {
+            val errorMessage = findViewById<TextView>(R.id.errorMessage)
+            errorMessage.visibility = View.INVISIBLE
+        }
     }
 }
