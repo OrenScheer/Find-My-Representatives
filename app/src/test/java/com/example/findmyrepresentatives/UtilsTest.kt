@@ -45,4 +45,9 @@ class UtilsTest {
     fun isValidPostalCode_IncorrectlyFormattedWrongOrder_ReturnsFalse() {
         assertThat(Utils.isValidPostalCode("A30 LB2")).isFalse()
     }
+
+    @Test
+    fun isValidPostalCode_CorrectlyFormattedButWithExtraCharacters_ReturnsFalse() {
+        assertThat(Utils.isValidPostalCode("AK2P 1S3")).isFalse()
+    }
 }
