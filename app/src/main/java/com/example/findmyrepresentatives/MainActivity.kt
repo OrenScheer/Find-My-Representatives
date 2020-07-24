@@ -14,6 +14,6 @@ class MainActivity : AppCompatActivity() {
 
     fun enterPostalCode(view: View) {
         val searchBox = findViewById<TextView>(R.id.searchBox)
-        val postalCode = searchBox.text.toString()
+        val postalCode = searchBox.text.toString().trim()
     }
 }
