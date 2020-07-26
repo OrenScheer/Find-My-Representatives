@@ -9,7 +9,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.lang.IllegalArgumentException
 
-
+/**
+ * The results activity.
+ * This screen shows a list of representatives.
+ */
 class SingleResultActivity (): AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

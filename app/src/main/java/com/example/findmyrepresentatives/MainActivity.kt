@@ -7,6 +7,10 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 
+/**
+ * The main activity of the app.
+ * This screen gives users a search box where they can serach for their representatives by postal code.
+ */
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
