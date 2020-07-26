@@ -4,14 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import okhttp3.*
-import java.io.IOException
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
-class SingleResultActivity : AppCompatActivity() {
-    private val client = OkHttpClient()
+class SingleResultActivity (): AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_single_result)
@@ -25,18 +24,20 @@ class SingleResultActivity : AppCompatActivity() {
 
     fun getRepresentative() {
         var ans = "not yet"
-        val request = Request.Builder()
-            .url("https://represent.opennorth.ca/postcodes/K1T2J7/")
-            .build()
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                Log.d("Fail", e.message.toString())
+        RepresentApi.retrofitService.getRepresentatives().enqueue(
+            object: Callback<String> {
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    Log.d("Error", t.toString())
+                }
+
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    ans = response.body().toString()
+                    Log.d("success", ans)
+                }
+
             }
-            override fun onResponse(call: Call, response: Response) {
-                ans = response.body()!!.string()
-                Log.d("Success", ans)
-            }
-        })
+        )
+        Log.d("ans", ans)
         val info = findViewById<TextView>(R.id.information).apply {
             text = ans
         }
