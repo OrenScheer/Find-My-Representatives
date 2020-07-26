@@ -7,6 +7,7 @@ import android.widget.TextView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.IllegalArgumentException
 
 
 class SingleResultActivity (): AppCompatActivity() {
@@ -26,25 +27,26 @@ class SingleResultActivity (): AppCompatActivity() {
 
     fun getRepresentative(postalCode: String) {
         var ans = "not yet"
+
         RepresentApi.retrofitService.getRepresentatives(postalCode).enqueue(
-            object: Callback<String> {
-                override fun onFailure(call: Call<String>, t: Throwable) {
+            object: Callback<RepresentDataSet> {
+                override fun onFailure(call: Call<RepresentDataSet>, t: Throwable) {
                     Log.d("Error", t.toString())
                 }
 
-                override fun onResponse(call: Call<String>, response: Response<String>) {
+                override fun onResponse(call: Call<RepresentDataSet>, response: Response<RepresentDataSet>) {
                     if (response.code() == 404) {
                         Log.d("invalid", postalCode)
+                        throw IllegalArgumentException("This is not a valid Canadian postal code.")
                     }
-                    ans = response.body().toString()
-                    Log.d("success", ans)
+                    val success: RepresentDataSet? = response.body()
+                    val rep: List<Representative> = success!!.representatives_centroid
+                    val info = findViewById<TextView>(R.id.information).apply {
+                        text = rep[0].first_name + rep[0].last_name
+                    }
                 }
-
             }
         )
         Log.d("ans", ans)
-        val info = findViewById<TextView>(R.id.information).apply {
-            text = ans
-        }
     }
 }
