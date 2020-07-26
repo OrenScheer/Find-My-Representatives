@@ -19,18 +19,23 @@ class SingleResultActivity (): AppCompatActivity() {
         val postalCodeConfirmation = findViewById<TextView>(R.id.postalCodeConfirmation).apply {
             text = postalCode
         }
-        getRepresentative()
+        if (postalCode != null) {
+            getRepresentative(postalCode)
+        }
     }
 
-    fun getRepresentative() {
+    fun getRepresentative(postalCode: String) {
         var ans = "not yet"
-        RepresentApi.retrofitService.getRepresentatives().enqueue(
+        RepresentApi.retrofitService.getRepresentatives(postalCode).enqueue(
             object: Callback<String> {
                 override fun onFailure(call: Call<String>, t: Throwable) {
                     Log.d("Error", t.toString())
                 }
 
                 override fun onResponse(call: Call<String>, response: Response<String>) {
+                    if (response.code() == 404) {
+                        Log.d("invalid", postalCode)
+                    }
                     ans = response.body().toString()
                     Log.d("success", ans)
                 }

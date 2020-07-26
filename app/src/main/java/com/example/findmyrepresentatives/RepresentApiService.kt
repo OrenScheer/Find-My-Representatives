@@ -5,6 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 private const val BASE_URL = "https://represent.opennorth.ca/postcodes/"
 
@@ -14,8 +15,8 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface RepresentApiService {
-    @GET("K1T2J7/")
-    fun getRepresentatives():
+    @GET("/postcodes/{code}")
+    fun getRepresentatives(@Path("code") postalCode: String):
             Call<String>
 }
 
