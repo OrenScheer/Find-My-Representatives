@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         var postalCode = searchBox.text.toString().trim()
         val errorMessage = findViewById<TextView>(R.id.errorMessage)
         if (!Utils.isValidPostalCode(postalCode)) {
-            // Somehow create an error message (view?)
             errorMessage.text = getString(R.string.postal_code_error, postalCode)
             errorMessage.visibility = View.VISIBLE
         }
@@ -30,7 +29,7 @@ class MainActivity : AppCompatActivity() {
             errorMessage.visibility = View.INVISIBLE
             postalCode = postalCode.replace(" ", "")
             postalCode = postalCode.toUpperCase()
-            val intent = Intent(this, SingleResultActivity::class.java).apply {
+            val intent = Intent(this, ResultsActivity::class.java).apply {
                 putExtra("postalCode", postalCode)
             }
             startActivity(intent)
