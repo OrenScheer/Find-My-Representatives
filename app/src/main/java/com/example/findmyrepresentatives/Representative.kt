@@ -7,5 +7,5 @@ class Representative (
     val district_name: String,
     val representative_set_name: String,
     val elected_office: String,
-    val email: String,
+    val email: String
 )
