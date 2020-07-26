@@ -1,9 +1,10 @@
 package com.example.findmyrepresentatives
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.EditText
 import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
@@ -14,7 +15,7 @@ class MainActivity : AppCompatActivity() {
 
     fun enterPostalCode(view: View) {
         val searchBox = findViewById<TextView>(R.id.searchBox)
-        val postalCode = searchBox.text.toString().trim()
+        var postalCode = searchBox.text.toString().trim()
         val errorMessage = findViewById<TextView>(R.id.errorMessage)
         if (!Utils.isValidPostalCode(postalCode)) {
             // Somehow create an error message (view?)
@@ -23,6 +24,12 @@ class MainActivity : AppCompatActivity() {
         }
         else {
             errorMessage.visibility = View.INVISIBLE
+            postalCode = postalCode.replace(" ", "")
+            postalCode = postalCode.toUpperCase()
+            val intent = Intent(this, SingleResultActivity::class.java).apply {
+                putExtra("postalCode", postalCode)
+            }
+            startActivity(intent)
         }
     }
 }
