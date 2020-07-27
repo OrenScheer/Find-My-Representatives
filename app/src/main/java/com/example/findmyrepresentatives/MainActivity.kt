@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * The main activity of the app.
@@ -15,10 +18,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        searchBox.setOnEditorActionListener{v, actionId, event ->
+            when(actionId) {
+                EditorInfo.IME_ACTION_SEND -> {
+                    button.performClick()
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     fun enterPostalCode(view: View) {
-        val searchBox = findViewById<TextView>(R.id.searchBox)
+        val searchBox = findViewById<EditText>(R.id.searchBox)
         var postalCode = searchBox.text.toString().trim()
         val errorMessage = findViewById<TextView>(R.id.errorMessage)
         if (!Utils.isValidPostalCode(postalCode)) {

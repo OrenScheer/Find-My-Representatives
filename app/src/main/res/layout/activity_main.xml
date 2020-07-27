@@ -16,6 +16,7 @@
         android:hint="@string/enter_postal_code"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
+        android:imeOptions="actionSend"
         app:layout_constraintEnd_toStartOf="@+id/button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
