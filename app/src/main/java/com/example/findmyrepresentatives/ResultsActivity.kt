@@ -36,6 +36,11 @@ class ResultsActivity (): AppCompatActivity() {
         if (postalCode != null) {
             getRepresentative(postalCode)
         }
+
+        back_button.setOnClickListener() {
+            Log.d("finishing", "up")
+            finish()
+        }
     }
 
     fun getRepresentative(postalCode: String) {
@@ -49,7 +54,9 @@ class ResultsActivity (): AppCompatActivity() {
                 override fun onResponse(call: Call<RepresentDataSet>, response: Response<RepresentDataSet>) {
                     if (response.code() == 404) {
                         Log.d("invalid", postalCode)
-                        throw IllegalArgumentException("This is not a valid Canadian postal code.") // Crashes - fix, should return to home screen
+                        loading_list.visibility = View.GONE
+                        invalid_code.visibility = View.VISIBLE
+                        back_button.visibility = View.VISIBLE
                     }
                     else {
                         loading_list.visibility = View.GONE
