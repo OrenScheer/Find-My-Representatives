@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.recyclerview_item_row.view.*
 
-class RecyclerAdapter(private val reps: List<Representative>)
+class RecyclerAdapter(private var reps: List<Representative>)
     : RecyclerView.Adapter<RecyclerAdapter.RepresentativeHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepresentativeHolder {
@@ -19,9 +19,13 @@ class RecyclerAdapter(private val reps: List<Representative>)
 
     override fun getItemCount(): Int = reps.size
 
-    override fun onBindViewHolder(holder: RecyclerAdapter.RepresentativeHolder, position: Int) {
+    override fun onBindViewHolder(holder: RepresentativeHolder, position: Int) {
         val rep = reps[position]
         holder.bindRepresentative(rep)
+    }
+
+    fun setRepresentatives(representatives: List<Representative>) {
+        reps = representatives
     }
 
     class RepresentativeHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
@@ -42,7 +46,12 @@ class RecyclerAdapter(private val reps: List<Representative>)
 
         fun bindRepresentative(representative: Representative) {
             this.representative = representative
-            Picasso.get().load(representative.photo_url).into(view.itemImage)
+            if (representative.photo_url != "") {
+                Picasso.get().load(representative.photo_url).into(view.itemImage)
+            }
+            else {
+                view.itemImage.setImageResource(R.drawable.unknown_person)
+            }
             view.itemDate.text = representative.name
             view.itemDescription.text = representative.representative_set_name
         }

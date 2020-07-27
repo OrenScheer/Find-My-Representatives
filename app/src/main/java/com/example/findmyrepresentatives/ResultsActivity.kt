@@ -40,11 +40,10 @@ class ResultsActivity (): AppCompatActivity() {
         adapter = RecyclerAdapter(data)
         recyclerView.adapter = adapter
 
-
-        /*val postalCode = intent.getStringExtra("postalCode")
+        val postalCode = intent.getStringExtra("postalCode")
         if (postalCode != null) {
             getRepresentative(postalCode)
-        }*/
+        }
     }
 
     fun getRepresentative(postalCode: String) {
@@ -59,6 +58,10 @@ class ResultsActivity (): AppCompatActivity() {
                     if (response.code() == 404) {
                         Log.d("invalid", postalCode)
                         throw IllegalArgumentException("This is not a valid Canadian postal code.") // Crashes - fix, should return to home screen
+                    }
+                    else {
+                        adapter.setRepresentatives(response.body()!!.representatives_centroid)
+                        adapter.notifyDataSetChanged()
                     }
                 }
             }
