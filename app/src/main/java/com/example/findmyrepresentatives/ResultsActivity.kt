@@ -28,14 +28,11 @@ class ResultsActivity (): AppCompatActivity() {
         linearLayoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = linearLayoutManager
 
-        val sDasko = Representative("https://www.peelregion.ca/council/_media/council-mem/stephen_dasko.png",
-        "Stephen Dasko", "Mississauga Ward 1", "Peel Regional Council",
-            "Councillor", "stephen.dasko@mississauga.ca")
-        val sSpengemann = Representative("https://www.ourcommons.ca/Content/Parliamentarians/Images/OfficialMPPhotos/43/SpengemannSven_Lib.jpg",
-        "Sven Spegmann", "Mississauga-Lakeshore", "House of Commons",
-        "MP", "Sven.Spengemann@parl.gc.ca")
+        val placeholder = Representative("https://media1.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif?cid=ecf05e47odo19iqs9f8ly2jdje5he3do7mhbc8qjstf2snn1&rid=giphy.gif",
+        "LOADING", "LOADING", "LOADING",
+            "LOADING", "LOADING")
 
-        val data = listOf(sDasko, sSpengemann)
+        val data = listOf(placeholder)
 
         adapter = RecyclerAdapter(data)
         recyclerView.adapter = adapter
