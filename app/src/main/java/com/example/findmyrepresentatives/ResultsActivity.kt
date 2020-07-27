@@ -58,9 +58,44 @@ class ResultsActivity (): AppCompatActivity() {
                         invalid_code.visibility = View.VISIBLE
                         back_button.visibility = View.VISIBLE
                     }
+                    else if (response.body() == null) {
+                        Log.d("null response", "shouldn't happen")
+                    }
                     else {
                         loading_list.visibility = View.GONE
-                        adapter.setRepresentatives(response.body()!!.representatives_centroid)
+                        val reps: MutableList<Representative> = response.body()!!.representatives_centroid
+                        reps.let {
+                                response.body()!!.representatives_concordance?.let(it::addAll)
+                        }
+                        reps.apply {
+                            var ind : Int = indexOfFirst {
+                                it.elected_office == "Councillor"
+                            }
+                            if (ind != -1) {
+                                add(0, removeAt(ind))
+                            }
+                            ind = indexOfFirst {
+                                it.elected_office == "Mayor"
+                            }
+                            if (ind != -1) {
+                                add(0, removeAt(ind))
+                            }
+                            ind = indexOfFirst {
+                                it.elected_office == "MPP"
+                                        || it.elected_office == "MLA"
+                                        || it.elected_office == "MNA"
+                            }
+                            if (ind != -1) {
+                                add(0, removeAt(ind))
+                            }
+                            ind = indexOfFirst {
+                                it.elected_office == "MP"
+                            }
+                            if (ind != -1) {
+                                add(0, removeAt(ind))
+                            }
+                        }
+                        adapter.setRepresentatives(reps)
                         adapter.notifyDataSetChanged()
                     }
                 }

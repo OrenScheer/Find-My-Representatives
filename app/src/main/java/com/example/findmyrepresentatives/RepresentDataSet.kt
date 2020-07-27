@@ -9,7 +9,8 @@ import java.util.*
  * set to null.
  */
 class RepresentDataSet (
-    val representatives_centroid: List<Representative>,
+    val representatives_centroid: MutableList<Representative>,
+    val representatives_concordance: MutableList<Representative>?,
     val city: Any? = null,
     val boundaries_concordance: Any? = null,
     val province: Any? = null,
