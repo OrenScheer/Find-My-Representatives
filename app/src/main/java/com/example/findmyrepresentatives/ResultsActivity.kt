@@ -3,6 +3,7 @@ package com.example.findmyrepresentatives
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,13 +29,7 @@ class ResultsActivity (): AppCompatActivity() {
         linearLayoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = linearLayoutManager
 
-        val placeholder = Representative("https://media1.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif?cid=ecf05e47odo19iqs9f8ly2jdje5he3do7mhbc8qjstf2snn1&rid=giphy.gif",
-        "LOADING", "LOADING", "LOADING",
-            "LOADING", "LOADING")
-
-        val data = listOf(placeholder)
-
-        adapter = RecyclerAdapter(data)
+        adapter = RecyclerAdapter(emptyList<Representative>())
         recyclerView.adapter = adapter
 
         val postalCode = intent.getStringExtra("postalCode")
@@ -57,6 +52,7 @@ class ResultsActivity (): AppCompatActivity() {
                         throw IllegalArgumentException("This is not a valid Canadian postal code.") // Crashes - fix, should return to home screen
                     }
                     else {
+                        loading_list.visibility = View.GONE
                         adapter.setRepresentatives(response.body()!!.representatives_centroid)
                         adapter.notifyDataSetChanged()
                     }

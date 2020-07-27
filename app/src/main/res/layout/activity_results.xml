@@ -22,6 +22,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical" />
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/loading_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/loading_list"
+        android:textSize="30sp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

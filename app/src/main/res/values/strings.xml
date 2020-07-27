@@ -3,4 +3,5 @@
     <string name="enter_postal_code">Enter your postal code</string>
     <string name="button_search">Search</string>
     <string name="postal_code_error">%1$s is not a valid postal code.</string>
+    <string name="loading_list">LOADING…please wait.</string>
 </resources>
