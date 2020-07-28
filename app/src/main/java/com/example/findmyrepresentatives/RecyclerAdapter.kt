@@ -49,7 +49,6 @@ class RecyclerAdapter(private var reps: List<Representative>)
             if (representative.photo_url != "") {
                 val url: String = representative.photo_url.replace("http:", "https:", ignoreCase = true)
                 Glide.with(view).load(url).into(view.itemImage)
-                Log.d("photo", url)
             }
             else {
                 view.itemImage.setImageResource(R.drawable.unknown_person)
