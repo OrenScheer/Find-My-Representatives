@@ -65,7 +65,7 @@ class ResultsActivity (): AppCompatActivity() {
                         loading_list.visibility = View.GONE
                         val reps: MutableList<Representative> = response.body()!!.representatives_centroid
                         reps.let {
-                                response.body()!!.representatives_concordance?.let(it::addAll)
+                            response.body()!!.representatives_concordance?.let(it::addAll)
                         }
                         reps.apply {
                             var ind : Int = indexOfFirst {
@@ -90,6 +90,7 @@ class ResultsActivity (): AppCompatActivity() {
                             }
                             ind = indexOfFirst {
                                 it.elected_office == "MP"
+                                        && it.representative_set_name == "House of Commons"
                             }
                             if (ind != -1) {
                                 add(0, removeAt(ind))
