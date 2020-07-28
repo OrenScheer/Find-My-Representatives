@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.recyclerview_item_row.view.*
 
 class RecyclerAdapter(private var reps: List<Representative>)
@@ -47,7 +47,9 @@ class RecyclerAdapter(private var reps: List<Representative>)
         fun bindRepresentative(representative: Representative) {
             this.representative = representative
             if (representative.photo_url != "") {
-                Picasso.get().load(representative.photo_url).into(view.itemImage)
+                val url: String = representative.photo_url.replace("http:", "https:", ignoreCase = true)
+                Glide.with(view).load(url).into(view.itemImage)
+                Log.d("photo", url)
             }
             else {
                 view.itemImage.setImageResource(R.drawable.unknown_person)
