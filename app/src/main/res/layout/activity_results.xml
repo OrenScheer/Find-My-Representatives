@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F0F0F0"
     tools:context=".ResultsActivity">
 
     <LinearLayout
@@ -58,9 +59,9 @@
         android:gravity="center"
         android:text="@string/invalid_go_back"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/invalid_code"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/invalid_code"
         tools:layout_editor_absoluteX="1dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
