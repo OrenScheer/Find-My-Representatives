@@ -6,6 +6,7 @@ package com.example.findmyrepresentatives
  */
 class Representative (
     val photo_url: String,
+    val party_name: String,
     val name: String,
     val district_name: String,
     val representative_set_name: String,

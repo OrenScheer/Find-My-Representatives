@@ -1,6 +1,5 @@
 package com.example.findmyrepresentatives
 
-import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.recyclerview_item_row.view.*
-import java.io.FileNotFoundException
 
 class RecyclerAdapter(private var reps: List<Representative>)
     : RecyclerView.Adapter<RecyclerAdapter.RepresentativeHolder>() {
@@ -51,9 +49,10 @@ class RecyclerAdapter(private var reps: List<Representative>)
             Glide.with(view)
                 .load(url)
                 .placeholder(R.drawable.unknown_person)
-                .into(view.itemImage)
-            view.itemDate.text = representative.name
-            view.itemDescription.text = representative.representative_set_name
+                .into(view.rep_portrait)
+            view.rep_name.text = representative.name
+            view.rep_riding.text = representative.district_name
+            view.rep_party.text = representative.party_name
         }
     }
 }
