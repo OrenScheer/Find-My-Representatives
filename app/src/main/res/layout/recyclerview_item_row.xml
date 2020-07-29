@@ -52,19 +52,28 @@
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rep_riding" />
+                    app:layout_constraintTop_toBottomOf="@+id/rep_legislature" />
 
                 <TextView
-                    android:id="@+id/rep_riding"
+                    android:id="@+id/rep_legislature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/rep_party"
+                    app:layout_constraintTop_toBottomOf="@+id/rep_office_riding" />
+
+                <TextView
+                    android:id="@+id/rep_office_riding"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="5"
                     android:textSize="14sp"
-                    app:layout_constraintBottom_toTopOf="@+id/rep_party"
+                    app:layout_constraintBottom_toTopOf="@+id/rep_legislature"
                     app:layout_constraintTop_toBottomOf="@+id/rep_name"
-                    tools:layout_editor_absoluteX="5dp" />
+                    tools:layout_editor_absoluteX="0dp" />
 
                 <TextView
                     android:id="@+id/rep_name"
@@ -73,7 +82,7 @@
                     android:layout_weight="1"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/rep_riding"
+                    app:layout_constraintBottom_toTopOf="@+id/rep_office_riding"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="spread_inside"
                     tools:layout_editor_absoluteX="5dp" />
