@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.recyclerview_item_row.view.*
+import java.io.FileNotFoundException
 
 class RecyclerAdapter(private var reps: List<Representative>)
     : RecyclerView.Adapter<RecyclerAdapter.RepresentativeHolder>() {
@@ -46,13 +47,11 @@ class RecyclerAdapter(private var reps: List<Representative>)
 
         fun bindRepresentative(representative: Representative) {
             this.representative = representative
-            if (representative.photo_url != "") {
-                val url: String = representative.photo_url.replace("http:", "https:", ignoreCase = true)
-                Glide.with(view).load(url).into(view.itemImage)
-            }
-            else {
-                view.itemImage.setImageResource(R.drawable.unknown_person)
-            }
+            val url: String = representative.photo_url.replace("http:", "https:", ignoreCase = true)
+            Glide.with(view)
+                .load(url)
+                .placeholder(R.drawable.unknown_person)
+                .into(view.itemImage)
             view.itemDate.text = representative.name
             view.itemDescription.text = representative.representative_set_name
         }
