@@ -59,6 +59,7 @@ class RecyclerAdapter(private var reps: List<Representative>)
                     else " for ") + representative.district_name
             view.rep_office_riding.text = view.rep_office_riding.text
             if (!representative.party_name.isBlank()) {
+                view.rep_party.visibility = View.VISIBLE
                 view.rep_party.text = representative.party_name
             }
             else {
