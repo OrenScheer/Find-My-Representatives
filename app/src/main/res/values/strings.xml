@@ -9,4 +9,6 @@
     <string name="invalid_go_back">Go back</string>
     <string name="photo_alt">Image of representative</string>
     <string name="no_internet">There has been an error. You likely have no Internet. Please go back and try again.</string>
+    <string name="or">OR</string>
+    <string name="use_location">Use my current location</string>
 </resources>

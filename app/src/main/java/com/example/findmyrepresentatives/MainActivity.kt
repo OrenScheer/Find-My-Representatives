@@ -8,6 +8,8 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -15,9 +17,13 @@ import kotlinx.android.synthetic.main.activity_main.*
  * This screen gives users a search box where they can serach for their representatives by postal code.
  */
 class MainActivity : AppCompatActivity() {
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         searchBox.setOnEditorActionListener{v, actionId, event ->
             when(actionId) {
@@ -47,5 +53,9 @@ class MainActivity : AppCompatActivity() {
             }
             startActivity(intent)
         }
+    }
+
+    fun useLocation(view: View) {
+
     }
 }
