@@ -56,20 +56,24 @@ class ResultsActivity (): AppCompatActivity() {
 
                 override fun onResponse(call: Call<RepresentDataSet>, response: Response<RepresentDataSet>) {
                     if (response.code() == 404) { // Postal code is of a valid format, but doesn't actually exist
-                        Log.d("invalid", postalCode)
                         loading_list.visibility = View.GONE // Remove loading message
                         invalid_code.visibility = View.VISIBLE // Display error message
                         back_button.visibility = View.VISIBLE // Display additional button to go back
                     }
                     else if (response.body() == null) {
                         Log.d("null response", "shouldn't happen")
+                        throw NullPointerException()
                     }
                     else {
                         loading_list.visibility = View.GONE // Loading done
                         val body: RepresentDataSet = response.body()!! // Body won't be null
                         val reps: MutableList<Representative> // The API returns two lists of representatives based on two different methods (center and boundaries of postal code area)
                         if (body.representatives_centroid == null && body.representatives_concordance == null) { // For some reason, no representatives found at this postal code (shouldn't happen)
-                            throw NoSuchElementException()
+                            loading_list.visibility = View.GONE // Remove loading message
+                            invalid_code.visibility = View.VISIBLE // Display error message
+                            invalid_code.text = getString(R.string.no_results)
+                            back_button.visibility = View.VISIBLE // Display additional button to go back
+                            return
                         }
                         else if (body.representatives_centroid == null) { // Most representatives are normally in representatives_centroid
                             reps = body.representatives_concordance!! // But if not, representatives_concordance is the entire list
