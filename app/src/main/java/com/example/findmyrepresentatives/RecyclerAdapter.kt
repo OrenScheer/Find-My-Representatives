@@ -1,10 +1,12 @@
 package com.example.findmyrepresentatives
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.recyclerview_item_row.view.*
@@ -61,9 +63,25 @@ class RecyclerAdapter(private var reps: List<Representative>)
             if (!representative.party_name.isBlank()) {
                 view.rep_party.visibility = View.VISIBLE
                 view.rep_party.text = representative.party_name
+
+                val contains: (String) -> Boolean = {party: String -> party in representative.party_name.toLowerCase(Locale.US)}
+                view.colour_bar.setBackgroundColor(Color.parseColor(
+                    when {
+                        contains("green") -> "#3D9835"
+                        contains("conservative") -> "#124072"
+                        contains("liberal")  || contains("libéral") -> "#D91920"
+                        contains("ndp") || contains("new democratic") -> "#F58220"
+                        contains("solidaire") -> "#FF5505"
+                        contains("bloc") -> "#5EB0DD"
+                        contains("coalition avenir") -> "#00A8E7"
+                        contains("parti québécois") -> "#15336F"
+                        else -> "#AFAFAF"
+                    }
+                ))
             }
             else {
                 view.rep_party.visibility = View.GONE
+                view.colour_bar.setBackgroundColor(Color.parseColor("#AFAFAF"))
             }
             view.rep_legislature.text = representative.representative_set_name
         }
