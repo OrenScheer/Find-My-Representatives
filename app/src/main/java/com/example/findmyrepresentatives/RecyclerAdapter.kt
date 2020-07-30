@@ -39,10 +39,6 @@ class RecyclerAdapter(var reps: List<Representative>)
             Log.d("RecyclerView", "CLICK!")
         }
 
-        companion object {
-            private val REP_KEY = "REP"
-        }
-
         /**
          * Function that binds a representative to a view in the RecyclerView.
          * @param representative the representative to be bound
