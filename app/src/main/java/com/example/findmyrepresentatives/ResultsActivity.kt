@@ -63,9 +63,19 @@ class ResultsActivity (): AppCompatActivity() {
                     }
                     else {
                         loading_list.visibility = View.GONE
-                        val reps: MutableList<Representative> = response.body()!!.representatives_centroid
-                        reps.let {
-                            response.body()!!.representatives_concordance?.let(it::addAll)
+                        val body: RepresentDataSet = response.body()!!
+                        val reps: MutableList<Representative>
+                        if (body.representatives_centroid == null && body.representatives_concordance == null) {
+                            throw NoSuchElementException()
+                        }
+                        else if (body.representatives_centroid == null) {
+                            reps = body.representatives_concordance!!
+                        }
+                        else {
+                            reps = body.representatives_centroid
+                            reps.let {
+                                body.representatives_concordance?.let(it::addAll)
+                            }
                         }
                         reps.apply {
                             var ind : Int = indexOfFirst {
