@@ -51,7 +51,10 @@ class ResultsActivity (): AppCompatActivity() {
         RepresentApi.retrofitService.getRepresentatives(postalCode).enqueue(
             object: Callback<RepresentDataSet> {
                 override fun onFailure(call: Call<RepresentDataSet>, t: Throwable) {
-                    Log.d("Error", t.toString())
+                    loading_list.visibility = View.GONE // Remove loading message
+                    invalid_code.visibility = View.VISIBLE // Display error message
+                    invalid_code.text = getString(R.string.no_internet)
+                    back_button.visibility = View.VISIBLE // Display additional button to go back
                 }
 
                 override fun onResponse(call: Call<RepresentDataSet>, response: Response<RepresentDataSet>) {

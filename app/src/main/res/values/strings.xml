@@ -8,4 +8,5 @@
     <string name="no_results">This postal code is not associated with any representatives according to the API. Please try a different postal code.</string>
     <string name="invalid_go_back">Go back</string>
     <string name="photo_alt">Image of representative</string>
+    <string name="no_internet">There has been an error. You likely have no Internet. Please go back and try again.</string>
 </resources>
