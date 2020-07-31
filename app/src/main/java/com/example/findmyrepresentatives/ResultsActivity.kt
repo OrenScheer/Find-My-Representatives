@@ -45,7 +45,7 @@ class ResultsActivity (): AppCompatActivity() {
     private fun getRepresentative(query: String) {
         val data: MutableMap<String, String> = HashMap()
         if (intent.getStringExtra("latlong") != null) { // If location is being used, then the latitude and longitude must be passed to the Retrofit request handler as a Map
-            data["point"] = intent.getStringExtra("latlong")!!
+            data["point"] = intent.getStringExtra("latlong")!! // For use as a QueryMap in the API call
         }
         RepresentApi.retrofitService.getRepresentatives(query, data).enqueue(
             object: Callback<RepresentDataSet> {

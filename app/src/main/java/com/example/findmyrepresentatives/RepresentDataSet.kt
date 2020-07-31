@@ -9,13 +9,13 @@ import java.util.*
  * set to null.
  */
 class RepresentDataSet (
-    val objects: MutableList<Representative>?,
-    val representatives_centroid: MutableList<Representative>?,
-    val representatives_concordance: MutableList<Representative>?,
+    val objects: MutableList<Representative>?, // In the case of using device location
+    val representatives_centroid: MutableList<Representative>?, // In the case of using postal code
+    val representatives_concordance: MutableList<Representative>?, // In the case of using postal code
     val city: Any? = null,
     val boundaries_concordance: Any? = null,
     val province: Any? = null,
     val centroid: Any? = null,
     val boundaries_centroid: Any? = null,
-    val code: String? // Keep the postal code so it can be part of query history
+    val code: String? // Keep the postal code so it can be part of query history if implemented
 )
