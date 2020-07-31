@@ -5,7 +5,7 @@
     <string name="postal_code_error">%1$s is not a valid postal code.</string>
     <string name="loading_list">LOADING…please wait.</string>
     <string name="invalid_code">This is not a valid Canadian postal code. Please go back.</string>
-    <string name="no_results">This postal code is not associated with any representatives according to the API. Please try a different postal code.</string>
+    <string name="no_results">This postal code is not associated with any representatives according to the API. Please try a different postal code. Or finding by device location.</string>
     <string name="invalid_go_back">Go back</string>
     <string name="photo_alt">Image of representative</string>
     <string name="no_internet">There has been an error. You likely have no Internet. Please go back and try again.</string>

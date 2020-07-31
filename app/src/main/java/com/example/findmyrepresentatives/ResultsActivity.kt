@@ -1,7 +1,6 @@
 package com.example.findmyrepresentatives
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,16 +43,13 @@ class ResultsActivity (): AppCompatActivity() {
      * @param query the query url (point/postcode + coordinates/postal code) that the user inputted
      */
     private fun getRepresentative(query: String) {
-        Log.d("query", query)
         val data: MutableMap<String, String> = HashMap()
-        if (intent.getStringExtra("latlong") != null) {
-            Log.d("here", intent.getStringExtra("latlong")!!)
+        if (intent.getStringExtra("latlong") != null) { // If location is being used, then the latitude and longitude must be passed to the Retrofit request handler as a Map
             data["point"] = intent.getStringExtra("latlong")!!
         }
         RepresentApi.retrofitService.getRepresentatives(query, data).enqueue(
             object: Callback<RepresentDataSet> {
                 override fun onFailure(call: Call<RepresentDataSet>, t: Throwable) {
-                    Log.d("error", t.toString())
                     loading_list.visibility = View.GONE // Remove loading message
                     invalid_code.visibility = View.VISIBLE // Display error message
                     invalid_code.text = getString(R.string.no_internet)
@@ -62,24 +58,24 @@ class ResultsActivity (): AppCompatActivity() {
 
                 override fun onResponse(call: Call<RepresentDataSet>, response: Response<RepresentDataSet>) {
                     if (response.code() == 404) { // Postal code is of a valid format, but doesn't actually exist
-                        Log.d("location", response.toString())
                         loading_list.visibility = View.GONE // Remove loading message
                         invalid_code.visibility = View.VISIBLE // Display error message
                         back_button.visibility = View.VISIBLE // Display additional button to go back
                     }
-                    else if (response.body() == null) {
-                        Log.d("null response", "shouldn't happen")
-                        throw NullPointerException()
+                    else if (response.body() == null) { // Shouldn't happen
+                        loading_list.visibility = View.GONE // Remove loading message
+                        invalid_code.visibility = View.VISIBLE // Display error message
+                        invalid_code.text = getString(R.string.no_internet)
+                        back_button.visibility = View.VISIBLE // Display additional button to go back
                     }
                     else {
-                        Log.d("location", response.toString())
                         loading_list.visibility = View.GONE // Loading done
                         val body: RepresentDataSet = response.body()!! // Body won't be null
-                        val reps: MutableList<Representative> // The API returns two lists of representatives based on two different methods (center and boundaries of postal code area)
-                        if (body.objects != null) {
-                            reps = body.objects
+                        val reps: MutableList<Representative> // The API, using postal codes, returns two lists of representatives based on two different methods (center and boundaries of postal code area)
+                        if (body.objects != null) { // There is also objects. This is used when finding by device location, as the Represent API returns only a list of representatives
+                            reps = body.objects // In this case, these are all the representatives
                         }
-                        else if (body.representatives_centroid == null && body.representatives_concordance == null) { // For some reason, no representatives found at this postal code (shouldn't happen)
+                        else if (body.representatives_centroid == null && body.representatives_concordance == null) { // For some reason, no representatives found at this postal code (happens occasionally)
                             loading_list.visibility = View.GONE // Remove loading message
                             invalid_code.visibility = View.VISIBLE // Display error message
                             invalid_code.text = getString(R.string.no_results)

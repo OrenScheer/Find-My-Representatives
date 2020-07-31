@@ -6,17 +6,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.recyclerview_item_row.view.*
 import java.util.*
 
+/**
+ * The RecyclerAdapter is responsible for individually creating each list item in the results page.
+ * @param reps: the list of representatives to create
+ */
 class RecyclerAdapter(var reps: List<Representative>)
     : RecyclerView.Adapter<RecyclerAdapter.RepresentativeHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepresentativeHolder {
-        val inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_item_row, parent, false)
+        val inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_item_row, parent, false) // Inflate a row item
         return RepresentativeHolder(inflatedView)
     }
 
@@ -31,19 +34,21 @@ class RecyclerAdapter(var reps: List<Representative>)
         private var view: View = v
         private var representative: Representative? = null
 
+        // For future expansion where representative can be clicked
         init {
             v.setOnClickListener(this)
         }
 
+        // For future expansion where representative can be clicked
         override fun onClick(v: View) {
-            Log.d("RecyclerView", "CLICK!")
+            Log.d("RecyclerView", "Click - expand feature not implemented.")
         }
 
         /**
          * Function that binds a representative to a view in the RecyclerView.
          * @param representative the representative to be bound
          */
-        @SuppressLint("SetTextI18n")
+        @SuppressLint("SetTextI18n") // To avoid warning when concatenating text with + (impossible to use string resources here)
         fun bindRepresentative(representative: Representative) {
             this.representative = representative
             val url: String = representative.photo_url.replace("http:", "https:", ignoreCase = true)

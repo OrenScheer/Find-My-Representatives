@@ -5,10 +5,8 @@ import android.content.Intent
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.TextView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -72,14 +70,13 @@ class MainActivity : AppCompatActivity() {
                         query += location.longitude
                         val intent = Intent(this, ResultsActivity::class.java).apply {
                             putExtra("query", "representatives/")
-                            putExtra("latlong", location.latitude.toString() + ',' + location.longitude.toString())
+                            putExtra("latlong",     location.latitude.toString() + ',' + location.longitude.toString())
                         }
                         startActivity(intent)
                     }
                 }
         }
         catch (e: SecurityException) {
-            Log.d("caught", "hmm")
             location_error.visibility = View.VISIBLE
         }
     }

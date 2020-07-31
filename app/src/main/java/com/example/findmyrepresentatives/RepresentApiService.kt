@@ -8,7 +8,6 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Query
 import retrofit2.http.QueryMap
 import java.util.concurrent.TimeUnit
 
@@ -35,10 +34,10 @@ private val retrofit = Retrofit.Builder()
  * A Retrofit interface that defines the API.
  */
 interface RepresentApiService {
-    @GET("{query}") // The {code} part is passed as an argument to getRepresentatives()
+    @GET("{query}") // The {query} part is passed as an argument to getRepresentatives()
     fun getRepresentatives(
-        @Path("query") query: String,
-        @QueryMap options: Map<String, String>
+        @Path("query") query: String, // In the case of a postal code, query will be of the form "postcodes/A0A0A0"
+        @QueryMap options: Map<String, String> // In the case of a device location, query will be of the form "representatives/", and options will add the lat and long as an option in the URL
     ):
             Call<RepresentDataSet>
 }
