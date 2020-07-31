@@ -30,7 +30,7 @@ class ResultsActivity (): AppCompatActivity() {
 
         val query = intent.getStringExtra("query") // Sent in from MainActivity
         if (query != null) {
-            getRepresentative(query)
+            getRepresentatives(query)
         }
 
         back_button.setOnClickListener() {// For if the postal code doesn't actually exist, user can press back button in two ways
@@ -43,7 +43,7 @@ class ResultsActivity (): AppCompatActivity() {
      * of the activity.
      * @param query the query url (point/postcode + coordinates/postal code) that the user inputted
      */
-    private fun getRepresentative(query: String) {
+    private fun getRepresentatives(query: String) {
         val data: MutableMap<String, String> = HashMap()
         if (intent.getStringExtra("latlong") != null) { // If location is being used, then the latitude and longitude must be passed to the Retrofit request handler as a Map
             data["point"] = intent.getStringExtra("latlong")!! // For use as a QueryMap in the API call
