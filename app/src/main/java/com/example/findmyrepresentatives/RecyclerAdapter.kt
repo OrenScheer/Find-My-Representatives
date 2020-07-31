@@ -60,7 +60,7 @@ class RecyclerAdapter(var reps: List<Representative>)
                 view.rep_party.visibility = View.VISIBLE // TextView for the party name appears
                 view.rep_party.text = representative.party_name
 
-                val contains: (String) -> Boolean = {party: String -> party in representative.party_name.toLowerCase(Locale.US)} // Lambda to check whether a matching substring is in the party name
+                val contains: (String) -> Boolean = {party: String -> party in representative.party_name.toLowerCase(Locale.CANADA)} // Lambda to check whether a matching substring is in the party name
                 view.colour_bar.setBackgroundColor(Color.parseColor( // Set the colour bar based on some of the most common parties' colours
                     when {
                         contains("green") -> "#3D9835"

@@ -1,6 +1,9 @@
 package com.example.findmyrepresentatives
 
+import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,9 +11,13 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import kotlinx.android.synthetic.main.activity_main.*
+import java.security.Security
+import java.util.*
 
 /**
  * The main activity of the app.
@@ -47,15 +54,36 @@ class MainActivity : AppCompatActivity() {
         else {
             errorMessage.visibility = View.INVISIBLE
             postalCode = postalCode.replace(" ", "")
-            postalCode = postalCode.toUpperCase()
+            postalCode = "postcodes/" + postalCode.toUpperCase(Locale.CANADA)
             val intent = Intent(this, ResultsActivity::class.java).apply {
-                putExtra("postalCode", postalCode)
+                putExtra("query", postalCode)
             }
             startActivity(intent)
         }
     }
 
-    fun useLocation(view: View) {
-
+    fun useLocation(view: View) = runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
+        try {
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    if (location == null) {
+                        Log.d("location null", "hmm")
+                        throw SecurityException()
+                    } else {
+                        var query = "representatives/?point="
+                        query += location.latitude
+                        query += ','
+                        query += location.longitude
+                        val intent = Intent(this, ResultsActivity::class.java).apply {
+                            putExtra("query", "representatives/")
+                            putExtra("latlong", location.latitude.toString() + ',' + location.longitude.toString())
+                        }
+                        startActivity(intent)
+                    }
+                }
+        }
+        catch (e: SecurityException) {
+            Log.d("no permission given", "not cool")
+        }
     }
 }

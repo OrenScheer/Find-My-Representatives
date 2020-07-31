@@ -8,9 +8,11 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
+import retrofit2.http.QueryMap
 import java.util.concurrent.TimeUnit
 
-private const val BASE_URL = "https://represent.opennorth.ca/postcodes/"
+private const val BASE_URL = "https://represent.opennorth.ca/"
 
 // Moshi is used to deserialize the JSON returned from the API to objects.
 private val moshi = Moshi.Builder()
@@ -33,8 +35,11 @@ private val retrofit = Retrofit.Builder()
  * A Retrofit interface that defines the API.
  */
 interface RepresentApiService {
-    @GET("/postcodes/{code}/representatives/") // The {code} part is passed as an argument to getRepresentatives()
-    fun getRepresentatives(@Path("code") postalCode: String):
+    @GET("{query}") // The {code} part is passed as an argument to getRepresentatives()
+    fun getRepresentatives(
+        @Path("query") query: String,
+        @QueryMap options: Map<String, String>
+    ):
             Call<RepresentDataSet>
 }
 

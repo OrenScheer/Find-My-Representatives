@@ -1,18 +1,14 @@
 package com.example.findmyrepresentatives
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_results.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.IllegalArgumentException
 
 /**
  * The results activity.
@@ -32,9 +28,9 @@ class ResultsActivity (): AppCompatActivity() {
         adapter = RecyclerAdapter(emptyList()) // Responsible for making individual views for each representative
         recyclerView.adapter = adapter
 
-        val postalCode = intent.getStringExtra("postalCode") // Sent in from MainActivity
-        if (postalCode != null) {
-            getRepresentative(postalCode)
+        val query = intent.getStringExtra("query") // Sent in from MainActivity
+        if (query != null) {
+            getRepresentative(query)
         }
 
         back_button.setOnClickListener() {// For if the postal code doesn't actually exist, user can press back button in two ways
@@ -45,12 +41,19 @@ class ResultsActivity (): AppCompatActivity() {
     /**
      * Function that calls the Represent API and updates the RecyclerView
      * of the activity.
-     * @param postalCode the postal code that the user inputted
+     * @param query the query url (point/postcode + coordinates/postal code) that the user inputted
      */
-    private fun getRepresentative(postalCode: String) {
-        RepresentApi.retrofitService.getRepresentatives(postalCode).enqueue(
+    private fun getRepresentative(query: String) {
+        Log.d("query", query)
+        val data: MutableMap<String, String> = HashMap()
+        if (intent.getStringExtra("latlong") != null) {
+            Log.d("here", intent.getStringExtra("latlong")!!)
+            data["point"] = intent.getStringExtra("latlong")!!
+        }
+        RepresentApi.retrofitService.getRepresentatives(query, data).enqueue(
             object: Callback<RepresentDataSet> {
                 override fun onFailure(call: Call<RepresentDataSet>, t: Throwable) {
+                    Log.d("error", t.toString())
                     loading_list.visibility = View.GONE // Remove loading message
                     invalid_code.visibility = View.VISIBLE // Display error message
                     invalid_code.text = getString(R.string.no_internet)
@@ -59,6 +62,7 @@ class ResultsActivity (): AppCompatActivity() {
 
                 override fun onResponse(call: Call<RepresentDataSet>, response: Response<RepresentDataSet>) {
                     if (response.code() == 404) { // Postal code is of a valid format, but doesn't actually exist
+                        Log.d("location", response.toString())
                         loading_list.visibility = View.GONE // Remove loading message
                         invalid_code.visibility = View.VISIBLE // Display error message
                         back_button.visibility = View.VISIBLE // Display additional button to go back
@@ -68,10 +72,14 @@ class ResultsActivity (): AppCompatActivity() {
                         throw NullPointerException()
                     }
                     else {
+                        Log.d("location", response.toString())
                         loading_list.visibility = View.GONE // Loading done
                         val body: RepresentDataSet = response.body()!! // Body won't be null
                         val reps: MutableList<Representative> // The API returns two lists of representatives based on two different methods (center and boundaries of postal code area)
-                        if (body.representatives_centroid == null && body.representatives_concordance == null) { // For some reason, no representatives found at this postal code (shouldn't happen)
+                        if (body.objects != null) {
+                            reps = body.objects
+                        }
+                        else if (body.representatives_centroid == null && body.representatives_concordance == null) { // For some reason, no representatives found at this postal code (shouldn't happen)
                             loading_list.visibility = View.GONE // Remove loading message
                             invalid_code.visibility = View.VISIBLE // Display error message
                             invalid_code.text = getString(R.string.no_results)

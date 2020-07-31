@@ -9,6 +9,7 @@ import java.util.*
  * set to null.
  */
 class RepresentDataSet (
+    val objects: MutableList<Representative>?,
     val representatives_centroid: MutableList<Representative>?,
     val representatives_concordance: MutableList<Representative>?,
     val city: Any? = null,
@@ -16,5 +17,5 @@ class RepresentDataSet (
     val province: Any? = null,
     val centroid: Any? = null,
     val boundaries_centroid: Any? = null,
-    val code: String // Keep the postal code so it can be part of query history
+    val code: String? // Keep the postal code so it can be part of query history
 )
