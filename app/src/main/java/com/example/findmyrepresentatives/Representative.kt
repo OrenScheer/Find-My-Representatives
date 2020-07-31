@@ -3,6 +3,7 @@ package com.example.findmyrepresentatives
 /**
  * A Representative object contains all the relevant information about a single
  * representative, as returned by the Represent API.
+ * @author Oren Scheer
  */
 class Representative (
     val photo_url: String,

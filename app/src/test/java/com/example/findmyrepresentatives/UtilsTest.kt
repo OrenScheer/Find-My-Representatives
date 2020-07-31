@@ -5,6 +5,10 @@ import org.junit.Test
 
 import org.junit.Assert.*
 
+/**
+ * Unit testing for the Utils functions.
+ * @author Oren Scheer
+ */
 class UtilsTest {
     @Test
     fun isValidPostalCode_CorrectlyFormatted_ReturnsTrue() {

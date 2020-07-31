@@ -7,6 +7,7 @@ import java.util.*
  * For the Moshi deserializer, there is no interest in anything other than
  * the list of representatives, so all the other fields except for postal code are
  * set to null.
+ * @author Oren Scheer
  */
 class RepresentDataSet (
     val objects: MutableList<Representative>?, // In the case of using device location

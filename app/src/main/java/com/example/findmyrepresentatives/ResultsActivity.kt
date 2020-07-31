@@ -12,6 +12,7 @@ import retrofit2.Response
 /**
  * The results activity.
  * This screen shows a list of representatives.
+ * @author Oren Scheer
  */
 class ResultsActivity (): AppCompatActivity() {
     private lateinit var linearLayoutManager: LinearLayoutManager

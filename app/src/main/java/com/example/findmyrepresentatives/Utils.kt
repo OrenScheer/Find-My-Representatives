@@ -2,6 +2,7 @@ package com.example.findmyrepresentatives
 
 /**
  * A class designed to add any functionality that may be needed across multiple parts of the app.
+ * @author Oren Scheer
  */
 class Utils {
     companion object {

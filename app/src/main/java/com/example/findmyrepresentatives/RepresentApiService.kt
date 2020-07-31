@@ -11,7 +11,7 @@ import retrofit2.http.Path
 import retrofit2.http.QueryMap
 import java.util.concurrent.TimeUnit
 
-private const val BASE_URL = "https://represent.opennorth.ca/"
+private const val BASE_URL = "https://represent.opennorth.ca/" // Base URL for the API calls
 
 // Moshi is used to deserialize the JSON returned from the API to objects.
 private val moshi = Moshi.Builder()
@@ -32,6 +32,7 @@ private val retrofit = Retrofit.Builder()
 
 /**
  * A Retrofit interface that defines the API.
+ * @author Oren Scheer
  */
 interface RepresentApiService {
     @GET("{query}") // The {query} part is passed as an argument to getRepresentatives()
@@ -44,6 +45,7 @@ interface RepresentApiService {
 
 /**
  * A singleton used any time there is an API call.
+ * @author Oren Scheer
  */
 object RepresentApi {
     val retrofitService: RepresentApiService by lazy {

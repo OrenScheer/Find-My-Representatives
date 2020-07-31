@@ -17,6 +17,7 @@ import java.util.*
 /**
  * The main activity of the app.
  * This screen gives users a search box where they can search for their representatives by postal code.
+ * @author Oren Scheer
  */
 class MainActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient

@@ -13,6 +13,7 @@ import java.util.*
 
 /**
  * The RecyclerAdapter is responsible for individually creating each list item in the results page.
+ * @author Oren Scheer
  * @param reps: the list of representatives to create
  */
 class RecyclerAdapter(var reps: List<Representative>)
@@ -34,12 +35,12 @@ class RecyclerAdapter(var reps: List<Representative>)
         private var view: View = v
         private var representative: Representative? = null
 
-        // For future expansion where representative can be clicked
+        // For future expansion where representative can be clicked and expanded view shown
         init {
             v.setOnClickListener(this)
         }
 
-        // For future expansion where representative can be clicked
+        // For future expansion where representative can be clicked and expanded view shown
         override fun onClick(v: View) {
             Log.d("RecyclerView", "Click - expand feature not implemented.")
         }
