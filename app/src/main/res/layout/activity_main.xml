@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/searchBox"
+        android:id="@+id/search_box"
         android:layout_width="232dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
@@ -30,13 +30,13 @@
         android:layout_marginEnd="16dp"
         android:onClick="enterPostalCode"
         android:text="@string/button_search"
-        app:layout_constraintBaseline_toBaselineOf="@+id/searchBox"
+        app:layout_constraintBaseline_toBaselineOf="@+id/search_box"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/searchBox" />
+        app:layout_constraintStart_toEndOf="@+id/search_box" />
 
     <TextView
-        android:id="@+id/errorMessage"
+        android:id="@+id/postal_code_error"
         android:layout_width="355dp"
         android:layout_height="30dp"
         android:layout_marginStart="28dp"
@@ -46,27 +46,40 @@
         android:textSize="18sp"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchBox" />
+        app:layout_constraintTop_toBottomOf="@+id/search_box" />
 
     <TextView
         android:id="@+id/or"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:text="@string/or"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchBox" />
+        app:layout_constraintTop_toBottomOf="@+id/search_box" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/location_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:onClick="useLocation"
         android:text="@string/use_location"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/or" />
+
+    <TextView
+        android:id="@+id/location_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/location_error"
+        android:textColor="#FF0000"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/location_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

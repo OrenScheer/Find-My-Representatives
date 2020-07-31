@@ -11,4 +11,6 @@
     <string name="no_internet">There has been an error. You likely have no Internet. Please go back and try again.</string>
     <string name="or">OR</string>
     <string name="use_location">Use my current location</string>
+    <string name="location_error">There has been an error with getting your location. Make sure your device location is turned on. Opening Google Maps and requesting
+        your location there first may help.</string>
 </resources>

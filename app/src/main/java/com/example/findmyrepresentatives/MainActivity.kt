@@ -1,7 +1,6 @@
 package com.example.findmyrepresentatives
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
@@ -11,17 +10,15 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import kotlinx.android.synthetic.main.activity_main.*
-import java.security.Security
 import java.util.*
 
 /**
  * The main activity of the app.
- * This screen gives users a search box where they can serach for their representatives by postal code.
+ * This screen gives users a search box where they can search for their representatives by postal code.
  */
 class MainActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -32,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        searchBox.setOnEditorActionListener{v, actionId, event ->
+        search_box.setOnEditorActionListener{ v, actionId, event ->
             when(actionId) {
                 EditorInfo.IME_ACTION_SEND -> {
                     button.performClick()
@@ -44,12 +41,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun enterPostalCode(view: View) {
-        val searchBox = findViewById<EditText>(R.id.searchBox)
-        var postalCode = searchBox.text.toString().trim()
-        val errorMessage = findViewById<TextView>(R.id.errorMessage)
+        var postalCode = search_box.text.toString().trim()
+        val errorMessage = findViewById<TextView>(R.id.postal_code_error)
         if (!Utils.isValidPostalCode(postalCode)) {
-            errorMessage.text = getString(R.string.postal_code_error, postalCode)
-            errorMessage.visibility = View.VISIBLE
+            postal_code_error.text = getString(R.string.postal_code_error, postalCode)
+            postal_code_error.visibility = View.VISIBLE
         }
         else {
             errorMessage.visibility = View.INVISIBLE
@@ -64,11 +60,11 @@ class MainActivity : AppCompatActivity() {
 
     fun useLocation(view: View) = runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
         try {
+            location_error.visibility = View.INVISIBLE
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location: Location? ->
                     if (location == null) {
-                        Log.d("location null", "hmm")
-                        throw SecurityException()
+                        location_error.visibility = View.VISIBLE
                     } else {
                         var query = "representatives/?point="
                         query += location.latitude
@@ -83,7 +79,8 @@ class MainActivity : AppCompatActivity() {
                 }
         }
         catch (e: SecurityException) {
-            Log.d("no permission given", "not cool")
+            Log.d("caught", "hmm")
+            location_error.visibility = View.VISIBLE
         }
     }
 }
