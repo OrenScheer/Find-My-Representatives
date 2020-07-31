@@ -9,7 +9,7 @@ import java.util.*
  * set to null.
  * @author Oren Scheer
  */
-class RepresentDataSet (
+data class RepresentDataSet (
     val objects: MutableList<Representative>?, // In the case of using device location
     val representatives_centroid: MutableList<Representative>?, // In the case of using postal code
     val representatives_concordance: MutableList<Representative>?, // In the case of using postal code

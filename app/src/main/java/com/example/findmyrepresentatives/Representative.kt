@@ -5,7 +5,7 @@ package com.example.findmyrepresentatives
  * representative, as returned by the Represent API.
  * @author Oren Scheer
  */
-class Representative (
+data class Representative (
     val photo_url: String,
     val party_name: String,
     val name: String,
