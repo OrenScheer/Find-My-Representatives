@@ -1,9 +1,12 @@
 package com.example.findmyrepresentatives
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import de.cketti.mailto.EmailIntentBuilder
 import kotlinx.android.synthetic.main.activity_results.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -14,7 +17,7 @@ import retrofit2.Response
  * This screen shows a list of representatives.
  * @author Oren Scheer
  */
-class ResultsActivity (): AppCompatActivity() {
+class ResultsActivity (): AppCompatActivity(), OnItemClickListener {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapter: RecyclerAdapter
 
@@ -25,7 +28,7 @@ class ResultsActivity (): AppCompatActivity() {
         linearLayoutManager = LinearLayoutManager(this) // Responsible for positioning individual views
         recyclerView.layoutManager = linearLayoutManager
 
-        adapter = RecyclerAdapter(emptyList()) // Responsible for making individual views for each representative
+        adapter = RecyclerAdapter(emptyList(), this) // Responsible for making individual views for each representative
         recyclerView.adapter = adapter
 
         val query = intent.getStringExtra("query") // Sent in from MainActivity
@@ -127,5 +130,12 @@ class ResultsActivity (): AppCompatActivity() {
                 }
             }
         )
+    }
+
+    override fun onEmailClicked(email: ImageView) {
+        EmailIntentBuilder.from(this)
+            .to(email.contentDescription.toString())
+            .start()
+        Log.d("email clicked", email.contentDescription.toString())
     }
 }

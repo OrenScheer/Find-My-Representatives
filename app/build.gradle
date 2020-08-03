@@ -45,6 +45,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.github.quickpermissions:quickpermissions-kotlin:0.4.0'
+    implementation 'de.cketti.mailto:email-intent-builder:2.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     testImplementation 'junit:junit:4.12'
     testImplementation 'com.google.truth:truth:1.0.1'

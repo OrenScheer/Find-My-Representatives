@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.recyclerview_item_row.view.*
@@ -16,7 +17,7 @@ import java.util.*
  * @author Oren Scheer
  * @param reps: the list of representatives to create
  */
-class RecyclerAdapter(var reps: List<Representative>)
+class RecyclerAdapter(var reps: List<Representative>, val itemClickListener: OnItemClickListener)
     : RecyclerView.Adapter<RecyclerAdapter.RepresentativeHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepresentativeHolder {
@@ -28,7 +29,7 @@ class RecyclerAdapter(var reps: List<Representative>)
 
     override fun onBindViewHolder(holder: RepresentativeHolder, position: Int) {
         val rep = reps[position]
-        holder.bindRepresentative(rep)
+        holder.bindRepresentative(rep, itemClickListener)
     }
 
     class RepresentativeHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
@@ -50,7 +51,7 @@ class RecyclerAdapter(var reps: List<Representative>)
          * @param representative the representative to be bound
          */
         @SuppressLint("SetTextI18n") // To avoid warning when concatenating text with + (impossible to use string resources here)
-        fun bindRepresentative(representative: Representative) {
+        fun bindRepresentative(representative: Representative, clickListener: OnItemClickListener) {
             this.representative = representative
             val url: String = representative.photo_url.replace("http:", "https:", ignoreCase = true)
             Glide.with(view) // Load picture into view
@@ -85,6 +86,14 @@ class RecyclerAdapter(var reps: List<Representative>)
                 view.rep_party.visibility = View.GONE // Otherwise, hide the party TextView
                 view.colour_bar.setBackgroundColor(Color.parseColor("#AFAFAF")) // And set the colour bar to gray
             }
+            view.email_address.contentDescription = representative.email
+            view.email_address.setOnClickListener {
+                clickListener.onEmailClicked(view.email_address)
+            }
         }
     }
+}
+
+interface OnItemClickListener {
+    fun onEmailClicked(email: ImageView)
 }
