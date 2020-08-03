@@ -2,11 +2,14 @@ package com.example.findmyrepresentatives
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.GradientDrawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.recyclerview_item_row.view.*
@@ -95,6 +98,10 @@ class RecyclerAdapter(var reps: List<Representative>, val itemClickListener: OnI
             else {
                 view.email_address.visibility = View.INVISIBLE
             }
+            val background = ResourcesCompat.getDrawable(view.resources, R.drawable.portrait_border, null) as GradientDrawable
+            background.mutate()
+            background.setStroke(2, (view.colour_bar.background as ColorDrawable).color)
+            view.rep_portrait.background = background
         }
     }
 }
