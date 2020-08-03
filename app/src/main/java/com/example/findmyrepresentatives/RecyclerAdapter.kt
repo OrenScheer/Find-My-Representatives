@@ -86,9 +86,14 @@ class RecyclerAdapter(var reps: List<Representative>, val itemClickListener: OnI
                 view.rep_party.visibility = View.GONE // Otherwise, hide the party TextView
                 view.colour_bar.setBackgroundColor(Color.parseColor("#AFAFAF")) // And set the colour bar to gray
             }
-            view.email_address.contentDescription = representative.email
-            view.email_address.setOnClickListener {
-                clickListener.onEmailClicked(view.email_address)
+            if (!representative.email.isBlank()) {
+                view.email_address.contentDescription = representative.email
+                view.email_address.setOnClickListener {
+                    clickListener.onEmailClicked(view.email_address)
+                }
+            }
+            else {
+                view.email_address.visibility = View.INVISIBLE
             }
         }
     }
