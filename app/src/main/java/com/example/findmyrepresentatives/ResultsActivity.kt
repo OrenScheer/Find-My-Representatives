@@ -1,7 +1,6 @@
 package com.example.findmyrepresentatives
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -136,6 +135,5 @@ class ResultsActivity (): AppCompatActivity(), OnItemClickListener {
         EmailIntentBuilder.from(this)
             .to(email.contentDescription.toString())
             .start()
-        Log.d("email clicked", email.contentDescription.toString())
     }
 }
