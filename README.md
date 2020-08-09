@@ -1,6 +1,4 @@
-# Find My Representatives
-
-<img src="images/App icon.png" width="20%">
+<img src="images/Banner.png">
 
 An Android app written in Kotlin that helps Canadians find their elected representatives, using only their postal code or their current device location.
 
