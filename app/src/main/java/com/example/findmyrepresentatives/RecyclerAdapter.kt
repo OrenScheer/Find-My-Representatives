@@ -74,11 +74,11 @@ class RecyclerAdapter(var reps: List<Representative>, val itemClickListener: OnI
                 view.colour_bar.setBackgroundColor(Color.parseColor( // Set the colour bar based on some of the most common parties' colours
                     when {
                         contains("green") -> "#3D9835"
-                        contains("conservative") -> "#124072"
+                        contains("conservative") -> "#002857"
                         contains("liberal")  || contains("libéral") -> "#D91920"
                         contains("ndp") || contains("new democratic") -> "#F58220"
                         contains("solidaire") -> "#FF5505"
-                        contains("bloc") -> "#5EB0DD"
+                        contains("bloc") -> "#0239c1"
                         contains("coalition avenir") -> "#00A8E7"
                         contains("parti québécois") -> "#15336F"
                         else -> "#AFAFAF" // Gray if the party name doesn't match any on the list here
