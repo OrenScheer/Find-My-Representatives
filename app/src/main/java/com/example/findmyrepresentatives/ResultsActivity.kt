@@ -96,13 +96,13 @@ class ResultsActivity (): AppCompatActivity(), OnItemClickListener {
                         }
                         reps.apply { // Sort the results (top -> federal representative -> provincial representative -> mayor -> city councillor -> anything else (school board trustees, etc.)
                             var ind : Int = indexOfFirst { // Check if there is a city councillor
-                                it.elected_office == "Councillor"
+                                it.elected_office == "Councillor" || it.elected_office == "Conseiller"
                             }
                             if (ind != -1) { // If there is, move it to the start
                                 add(0, removeAt(ind))
                             }
                             ind = indexOfFirst { // Same for all the other high-priority representatives
-                                it.elected_office == "Mayor"
+                                it.elected_office == "Mayor" || it.elected_office == "Maire"
                             }
                             if (ind != -1) {
                                 add(0, removeAt(ind))
