@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="background">#FFFFFF</color>
-    <color name="resultsBackground">#F0F0F0</color>
-    <color name="cardBackground">#FFFFFF</color>
-    <color name="cardText">#4F4F4F</color>
+    <color name="background">#080808</color>
+    <color name="resultsBackground">#080808</color>
+    <color name="cardBackground">#252525</color>
+    <color name="cardText">#EAEAEA</color>
     <color name="colorPrimary">#3899A0</color>
     <color name="colorPrimaryDark">#25666B</color>
     <color name="colorAccent">#43B9C1</color>
