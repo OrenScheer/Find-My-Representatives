@@ -3,16 +3,20 @@ package com.example.findmyrepresentatives
 import android.Manifest
 import android.content.Intent
 import android.location.Location
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
+import com.google.android.gms.tasks.Task
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 /**
  * The main activity of the app.
@@ -20,15 +24,18 @@ import java.util.*
  * @author Oren Scheer
  */
 class MainActivity : AppCompatActivity() {
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var locationRequest: LocationRequest
+    private lateinit var locationCallback: LocationCallback
+    private var currentLocation: Location? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
-        search_box.setOnEditorActionListener{ v, actionId, event ->
+        search_box.setOnEditorActionListener{ _, actionId, _ ->
             when(actionId) {
                 EditorInfo.IME_ACTION_SEND -> {
                     button.performClick()
@@ -67,22 +74,65 @@ class MainActivity : AppCompatActivity() {
      */
     fun useLocation(view: View) = runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
         try {
-            location_error.visibility = View.INVISIBLE
-            fusedLocationClient.lastLocation
-                .addOnSuccessListener { location: Location? ->
-                    if (location == null) {
-                        location_error.visibility = View.VISIBLE // If there's an issue with location (for example, it was never used before)
-                    } else {
-                        val intent = Intent(this, ResultsActivity::class.java).apply {
+            val locationRequest = LocationRequest().apply { // We will only be requesting the location once
+                interval = TimeUnit.SECONDS.toMillis(60)
+                fastestInterval = TimeUnit.SECONDS.toMillis(30)
+                maxWaitTime = TimeUnit.SECONDS.toMillis(2)
+                priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            }
+
+            val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
+            val client: SettingsClient = LocationServices.getSettingsClient(this)
+            val task:  Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build()) // Check if settings allow for access to location
+            task.addOnFailureListener() { exception ->
+                if (exception is ResolvableApiException){
+                    location_error.visibility = View.VISIBLE // Location is probably turned off
+                    fusedLocationProviderClient.removeLocationUpdates(locationCallback) // We need to wait for the user to press the button again once location is turned on
+                }
+            }
+
+            locationCallback = object : LocationCallback() {
+                override fun onLocationResult(locationResult: LocationResult?) {
+                    super.onLocationResult(locationResult)
+                    if (locationResult?.lastLocation != null) {
+                        currentLocation = locationResult.lastLocation
+                        Log.d("current lat", currentLocation!!.latitude.toString())
+                        val intent = Intent(applicationContext, ResultsActivity::class.java).apply {
                             putExtra("query", "representatives/") // URL to use for the API call
-                            putExtra("latlong",     location.latitude.toString() + ',' + location.longitude.toString()) // Followed by the latitude and longitude as a "point" option
+                            putExtra("latlong",     currentLocation!!.latitude.toString() + ',' + currentLocation!!.longitude.toString()) // Followed by the latitude and longitude as a "point" option
                         }
+                        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
                         startActivity(intent)
                     }
+                    else {
+                        location_error.visibility = View.VISIBLE
+                    }
                 }
+            }
+            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
         }
         catch (e: SecurityException) {
-            location_error.visibility = View.VISIBLE // Permission wasn't granted
+            location_error.visibility = View.VISIBLE // Permission wasn't granted, shouldn't happen using QuickPermissions
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        currentLocation = null
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (currentLocation != null) {
+            fusedLocationProviderClient.removeLocationUpdates(locationCallback) // Stop updates just in case they are still active
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (currentLocation != null) {
+            fusedLocationProviderClient.removeLocationUpdates(locationCallback) // Stop updates just in case they are still active
+        }
+    }
+
 }
