@@ -119,6 +119,10 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         currentLocation = null
+        location_error.visibility = View.INVISIBLE
+        postal_code_error.visibility = View.INVISIBLE
+        search_box.setText("")
+        main_layout.requestFocus()
     }
 
     override fun onStop() {
